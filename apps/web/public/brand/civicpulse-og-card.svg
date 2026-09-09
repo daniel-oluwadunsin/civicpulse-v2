@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">CivicPulse — Report. Route. Resolve.</title>
+  <desc id="desc">A CivicPulse social share card showing the civic pulse route through a public infrastructure grid.</desc>
+  <rect width="1200" height="630" fill="#fff"/>
+  <g stroke="#000" stroke-width="1" opacity=".08">
+    <path d="M40 0v630M80 0v630M120 0v630M160 0v630M200 0v630M240 0v630M280 0v630M320 0v630M360 0v630M400 0v630M440 0v630M480 0v630M520 0v630M560 0v630M600 0v630M640 0v630M680 0v630M720 0v630M760 0v630M800 0v630M840 0v630M880 0v630M920 0v630M960 0v630M1000 0v630M1040 0v630M1080 0v630M1120 0v630M1160 0v630M0 40h1200M0 80h1200M0 120h1200M0 160h1200M0 200h1200M0 240h1200M0 280h1200M0 320h1200M0 360h1200M0 400h1200M0 440h1200M0 480h1200M0 520h1200M0 560h1200M0 600h1200"/>
+  </g>
+  <rect x="72" y="72" width="96" height="96" fill="#000"/>
+  <path d="M82 136h16v-16h14v-18h14v18h24v16" fill="none" stroke="#ff3000" stroke-width="7" stroke-linecap="square"/>
+  <text x="205" y="137" fill="#000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="54" font-weight="900" letter-spacing="-2">CIVIC</text>
+  <rect x="372" y="98" width="6" height="48" fill="#ff3000"/>
+  <text x="400" y="137" fill="#000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="54" font-weight="900" letter-spacing="-2">PULSE</text>
+  <text x="72" y="315" fill="#000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="92" font-weight="900" letter-spacing="-5">REPORT.</text>
+  <text x="72" y="414" fill="#000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="92" font-weight="900" letter-spacing="-5">ROUTE.</text>
+  <text x="72" y="513" fill="#ff3000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="92" font-weight="900" letter-spacing="-5">RESOLVE.</text>
+  <path d="M730 510h88V404h100V270h86v94h124" fill="none" stroke="#000" stroke-width="14" stroke-linecap="square"/>
+  <path d="M730 510h88V404h100V270h86v94h124" fill="none" stroke="#ff3000" stroke-width="6" stroke-linecap="square"/>
+  <g fill="#ff3000"><rect x="720" y="500" width="20" height="20"/><rect x="1118" y="354" width="20" height="20"/></g>
+</svg>

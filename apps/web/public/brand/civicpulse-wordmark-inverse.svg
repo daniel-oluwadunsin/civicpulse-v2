@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 176" role="img" aria-labelledby="title desc">
+  <title id="title">CivicPulse inverse</title>
+  <desc id="desc">Reversed stacked CivicPulse wordmark with civic pulse mark.</desc>
+  <rect width="96" height="96" fill="#000"/>
+  <rect x="4" y="4" width="88" height="88" fill="none" stroke="#fff" stroke-width="2"/>
+  <g stroke="#fff" stroke-width="1" opacity=".22"><path d="M20 12v72M38 12v72M56 12v72M74 12v72M12 20h72M12 38h72M12 56h72M12 74h72"/></g>
+  <path d="M14 68h16V52h14V34h14v18h24v16" fill="none" stroke="#ff3000" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+  <g fill="#ff3000"><rect x="11" y="65" width="6" height="6"/><rect x="79" y="65" width="6" height="6"/></g>
+  <text x="8" y="133" fill="#fff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="34" font-weight="900" letter-spacing="-1.5">CIVIC</text>
+  <rect x="8" y="147" width="72" height="4" fill="#ff3000"/>
+  <text x="92" y="163" fill="#fff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="34" font-weight="900" letter-spacing="-1.5">PULSE</text>
+</svg>

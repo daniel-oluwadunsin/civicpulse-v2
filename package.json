@@ -1,0 +1,25 @@
+{
+  "name": "civicpulse",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev:web & npm run dev:api & npm run dev:worker",
+    "dev:web": "npm run dev --workspace=@civicpulse/web",
+    "dev:api": "npm run dev:api --workspace=@civicpulse/server",
+    "dev:worker": "npm run dev:worker --workspace=@civicpulse/server",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:integration": "npm run test:integration --workspace=@civicpulse/server",
+    "db:migrate": "npm run db:migrate --workspace=@civicpulse/server",
+    "db:status": "npm run db:status --workspace=@civicpulse/server",
+    "start:api": "npm run start:api --workspace=@civicpulse/server",
+    "start:worker": "npm run start:worker --workspace=@civicpulse/server"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
