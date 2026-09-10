@@ -233,11 +233,6 @@ export function ReportPage() {
           <div className="report-step">
             <p className="eyebrow">01 / EVIDENCE</p>
             <h2>Add what you have</h2>
-            <p>
-              Images, voice notes, and video upload directly to restricted
-              Cloudinary storage. CivicPulse verifies each returned asset before
-              attachment.
-            </p>
             <label className="button">
               <Icon name="gallery" />
               {uploading ? "UPLOADING…" : "ADD IMAGE, AUDIO, OR VIDEO"}
