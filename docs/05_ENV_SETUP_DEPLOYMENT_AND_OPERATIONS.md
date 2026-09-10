@@ -41,8 +41,8 @@ GEMINI_MODEL_REPORT_ANALYSIS=
 GEMINI_MODEL_ROUTING=
 GEMINI_MODEL_MATCHING=
 
-SMTP_HOST=
-SMTP_PORT=
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
 SMTP_USER=
 SMTP_PASS=
 EMAIL_FROM=
@@ -70,6 +70,10 @@ Never expose:
 - database URL;
 - session secret;
 - SMTP password.
+
+For Gmail, `SMTP_USER` is the Gmail address, `SMTP_PASS` is a Google app
+password, and `EMAIL_FROM` must be that address or a configured sending alias.
+The application requires TLS and reuses a pooled Nodemailer transport.
 
 ---
 

@@ -4,8 +4,8 @@
   "description": "A civic-infrastructure reporting and accountability platform for Nigeria.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#000000",
+  "background_color": "#FFFDF5",
+  "theme_color": "#008751",
   "icons": [
     {
       "src": "/icons/icon-192.png",

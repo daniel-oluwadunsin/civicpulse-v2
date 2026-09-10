@@ -1,0 +1,9 @@
+<svg viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ng-title ng-desc">
+  <title id="ng-title">CivicPulse coverage map</title><desc id="ng-desc">A stylized outline of Nigeria divided into operational regions, with incident signals linked to response organizations.</desc>
+  <defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" stroke="currentColor" stroke-opacity=".08"/></pattern></defs>
+  <rect width="720" height="520" fill="url(#grid)"/>
+  <path d="M163 79 282 43l97 28 91-17 72 54 70 10 27 84-33 72 11 72-61 30-40 70-93-2-69 35-86-30-87 10-41-73-61-31-4-83-38-65 60-56 16-72Z" fill="var(--map-land,#E8F5ED)" stroke="var(--border-strong,#AAB9B0)" stroke-width="3"/>
+  <path d="m163 79 61 84 58-120M224 163l-37 93-112 16m149-109 96 32 59-124m-59 124 6 94-139-33m139 33 104-10 40-225m-40 225 78 60 98-65m-156 5-76 111-28-101m28 101 69 54m-69-54-86 39m240-90 8 107" stroke="var(--map-boundary,#AAB9B0)" stroke-width="2"/>
+  <path class="map-route" d="M145 320C238 247 251 365 341 287s119 11 210-91" stroke="#008751" stroke-width="8" stroke-linecap="round"/>
+  <g fill="#fff" stroke="#008751" stroke-width="6"><circle cx="145" cy="320" r="14"/><circle cx="341" cy="287" r="14"/><circle cx="551" cy="196" r="14"/></g><g fill="#C79214"><circle cx="145" cy="320" r="5"/><circle cx="341" cy="287" r="5"/><circle cx="551" cy="196" r="5"/></g>
+</svg>

@@ -1,14 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
-  <title id="title">CivicPulse inverse mark</title>
-  <desc id="desc">A red civic pulse route crossing a white structural grid.</desc>
-  <rect width="96" height="96" fill="#000"/>
-  <rect x="4" y="4" width="88" height="88" fill="none" stroke="#fff" stroke-width="2"/>
-  <g stroke="#fff" stroke-width="1" opacity=".22">
-    <path d="M20 12v72M38 12v72M56 12v72M74 12v72M12 20h72M12 38h72M12 56h72M12 74h72"/>
-  </g>
-  <path d="M14 68h16V52h14V34h14v18h24v16" fill="none" stroke="#ff3000" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
-  <g fill="#ff3000">
-    <rect x="11" y="65" width="6" height="6"/>
-    <rect x="79" y="65" width="6" height="6"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc"><title id="title">CivicPulse inverse mark</title><desc id="desc">An open light civic block with a gold public signal.</desc><rect width="96" height="96" rx="22" fill="#064B31"/><path d="M22 16h48a12 12 0 0 1 0 24H34v24h36a12 12 0 0 1 0 24H22c-7 0-12-5-12-12V28c0-7 5-12 12-12Z" fill="#FFFFFF"/><circle cx="80" cy="52" r="10" fill="#F4C542" stroke="#12231A" stroke-width="4"/></svg>

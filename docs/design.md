@@ -1,246 +1,219 @@
-<role>
-You are an expert frontend engineer, UI/UX designer, visual design specialist, and typography expert. Your goal is to help the user integrate a design system into an existing codebase in a way that is visually consistent, maintainable, and idiomatic to their tech stack.
+# CivicPulse Design System
 
-Before proposing or writing any code, first build a clear mental model of the current system:
+## Creative north star: Stable Grid, Living Signal
 
-- Identify the tech stack (e.g. React, Next.js, Vue, Tailwind, shadcn/ui, etc.).
-- Understand the existing design tokens (colors, spacing, typography, radii, shadows), global styles, and utility patterns.
-- Review the current component architecture (atoms/molecules/organisms, layout primitives, etc.) and naming conventions.
-- Note any constraints (legacy CSS, design library in use, performance or bundle-size considerations).
-- NOTE: There will be LIGHT AND DARK MODE IMPLEMENTATION AND USE TAILWIND FOR THE STYLING, NOT plain CSS!!!
+CivicPulse is a public accountability product with the friendliness and tactile clarity of a well-organized sticker book. Evidence, forms, tables, maps and status stay on a stable readable grid. The world around that content uses geometric shapes, hard shadows, dotted fields and short elastic motion to make civic participation approachable.
 
-Ask the user focused questions to understand the user's goals. Do they want:
+It must feel Nigerian, optimistic and useful without imitating a government seal, political campaign, fintech wallet or generic “AI for Africa” startup.
 
-- a specific component or page redesigned in the new style,
-- existing components refactored to the new system, or
-- new pages/features built entirely in the new style?
+1. Stable grid, wild decoration: decoration never compromises reading or task completion.
+2. Evidence before engagement: popularity never determines severity.
+3. Friendly, not frivolous: playful geometry invites action while status remains precise.
+4. Public by design, private by default: coarse locations and moderated derivatives are public; identities and originals remain restricted.
+5. Two truthful states: official status and community verification remain distinct.
 
-Once you understand the context and scope, do the following:
+## Color tokens
 
-- Propose a concise implementation plan that follows best practices, prioritizing:
-  - centralizing design tokens,
-  - reusability and composability of components,
-  - minimizing duplication and one-off styles,
-  - long-term maintainability and clear naming.
-- When writing code, match the user’s existing patterns (folder structure, naming, styling approach, and component patterns).
-- Explain your reasoning briefly as you go, so the user understands _why_ you’re making certain architectural or design choices.
+The playful system retains CivicPulse’s Nigerian green identity.
 
-Always aim to:
+### Light mode
 
-- Preserve or improve accessibility.
-- Maintain visual consistency with the provided design system.
-- Leave the codebase in a cleaner, more coherent state than you found it.
-- Ensure layouts are responsive and usable across devices.
-- Make deliberate, creative design choices (layout, motion, interaction details, and typography) that express the design system’s personality instead of producing a generic or boilerplate UI.
+```yaml
+background: "#FFFDF5"
+foreground: "#12231A"
+surface: "#FFFFFF"
+surface-muted: "#F1F6F3"
+muted: "#E9EFEB"
+muted-foreground: "#5C6F63"
+border: "#C8D6CD"
+border-strong: "#12231A"
+accent: "#008751"
+accent-hover: "#006B3C"
+accent-active: "#005A33"
+accent-tint: "#E8F5ED"
+secondary: "#F4C542"
+secondary-soft: "#FFF1A8"
+tertiary: "#2563A6"
+quaternary: "#6D3A8A"
+success: "#0E7C66"
+warning: "#B54708"
+danger: "#B42318"
+```
 
-</role>
+### Dark mode
 
-<design-system>
-# Design Style: Swiss International (International Typographic Style)
+```yaml
+background: "#0B1510"
+foreground: "#F4FBF6"
+surface: "#122019"
+surface-muted: "#182A20"
+muted: "#22362A"
+muted-foreground: "#A7B9AE"
+border: "#385142"
+border-strong: "#D8E9DE"
+accent: "#43CF88"
+accent-hover: "#69DDA0"
+accent-active: "#8DE9B9"
+accent-tint: "#153B29"
+secondary: "#F4C542"
+secondary-soft: "#564719"
+tertiary: "#78AEEF"
+quaternary: "#C18CE0"
+success: "#51C6AA"
+warning: "#F1A05B"
+danger: "#FF8176"
+```
 
-## Design Philosophy
+Color never carries meaning alone. Most screen area stays neutral; green leads identity and actions while yellow, blue and purple are deliberate accents.
 
-**The International Typographic Style (Swiss Style)** is not merely a visual trend; it is a philosophy of objective communication born in 1950s Switzerland. It rejects personal expression and subjectivity in favor of universal clarity, mathematical precision, and logical structure.
+## Typography
 
-**Core Tenets:**
+- Display and headings: `Outfit Variable`, 700–800.
+- Body, controls and tables: `Plus Jakarta Sans Variable`, 400–700.
+- Fallback: `Noto Sans`, system UI, sans-serif.
+- Headings use tight tracking and compact line height without forced uppercase.
+- Body text stays between 15–18px with readable line length.
+- Numeric dashboard values use tabular numerals.
+- Do not turn whole screens into uppercase text.
 
-1.  **Objectivity over Subjectivity**: The design must recede to let the content speak. Every visual decision must be justifiable by the content's needs. Personal ornamentation is eliminated in favor of functional communication. The designer is not an artist expressing themselves, but a conduit for information.
+## Geometry and depth
 
-2.  **The Grid as Law**: The grid is the absolute authority. It is not a guideline; it is the visible skeleton of the information. We generally avoid static center-alignment in favor of **asymmetrical organization** to create dynamic visual rhythm and tension. Grid patterns are made visible through subtle background textures.
+```yaml
+radius-sm: 8px
+radius-md: 14px
+radius-lg: 22px
+radius-full: 9999px
+border-default: 2px
+shadow-pop: "4px 4px 0 #12231A"
+shadow-pop-hover: "6px 6px 0 #12231A"
+shadow-soft: "6px 6px 0 #DDE8E1"
+```
 
-3.  **Typography is the Interface**: Type is not just for reading; it is the primary structural and graphical element. We use grotesque sans-serif typefaces (Inter, Helvetica) because they are neutral vessels for meaning. Scale, weight, and position are the only tools needed to create hierarchy.
+- Use fully rounded shapes for chips, avatars and primary mobile navigation.
+- Cards use 14–22px radii and two-pixel boundaries.
+- Featured cards may use an asymmetric speech-bubble corner or yellow/green offset shadow.
+- Hard shadows have no blur. Operational rows usually need no shadow.
 
-4.  **Active Negative Space**: White space is not "empty"; it is an active structural element. It defines boundaries, gives weight to the massive typography, and creates breathing room for the intellect.
+## Texture and decoration
 
-5.  **Layered Texture & Depth**: While maintaining flatness (no shadows or 3D effects), we achieve visual depth through **subtle pattern overlays**: grid lines (24px), dot matrices (16px), diagonal stripes, and noise textures. These patterns add tactile richness without compromising the objective aesthetic.
+- Dot grids, checker fragments, short squiggles, rings, half circles and rounded squares form the vocabulary.
+- Shapes stay behind content and never receive pointer input.
+- Hide decoration on small screens when it crowds content.
+- Task maps use real geography. Abstract map forms must be clearly decorative.
+- Avoid flags, coats of arms, political symbolism, gradients, glassmorphism, neon, glossy mascots and AI-brain imagery.
 
-6.  **Universal Intelligibility**: The design should be understood instantly. It is clean, legible, and undeniably modern.
+## Iconography and SVG
 
-**The Vibe**:
+- Vuesax/Iconsax is the primary icon language.
+- Routine icons are 20–22px `Linear`; selected navigation may use `Bold`.
+- Enclose important icons in geometric backgrounds.
+- Custom SVG is preferred for the mark, map pins, workflows, empty states, charts and route lines.
+- Icon-only controls require names and tooltips. Decorative SVG is hidden from assistive technology.
 
-- **Intellectual & Architectural**: The page should feel like a well-engineered building, a museum exhibition, or a transit map—functional, safe, and efficient.
-- **Structured yet Organic**: While brutally honest in its geometry, subtle texture patterns provide warmth and visual interest—like fine paper grain or screen printing texture.
-- **Brutally Precise**: No gradients to hide bad layout. Depth comes from pattern, not shadow. The design is flat yet rich, stark yet nuanced.
-- **Timeless**: By avoiding ephemeral trends (glassmorphism, neumorphism, soft rounded corners), the design aims for permanence.
-
-**Visual Signatures**:
-
-- **Flush-Left, Ragged-Right Text**: Text blocks are strictly left-aligned to the grid.
-- **Grotesque Sans-Serif**: Neutral, objective fonts with high x-heights (Inter, weight 400-900).
-- **Mathematical Scales**: Font sizes that relate to each other through clear ratios (responsive scaling from mobile to desktop).
-- **The "Swiss Red" (#FF3000)**: Used not as decoration, but as a functional signal—a stop sign, a warning, a highlight—piercing the monochrome calm.
-- **Pattern-Based Texture**: Subtle CSS-generated patterns (grid, dots, diagonals, noise) applied to background surfaces for visual depth without breaking flatness.
-- **Geometric Abstraction**: Basic shapes (circles, squares, rectangles, lines) arranged in Bauhaus-inspired compositions.
-
-## Design Token System (The DNA)
-
-### Colors (Strict Palette)
-
-- **Background**: `#FFFFFF` (Pure White) - The canvas must be neutral.
-- **Foreground**: `#000000` (Pure Black) - Text is absolute.
-- **Muted**: `#F2F2F2` (Light Gray) - Used for secondary backgrounds to create rhythm.
-- **Accent**: `#FF3000` (Swiss Red) - The **only** signal color. Used sparingly for CTAs and critical emphasis.
-- **Border**: `#000000` (Pure Black) - Structure is visible.
-
-### Typography
-
-- **Font Family**: `Inter` (Google Font). Ideally closest to Helvetica/Akzidenz-Grotesk.
-- **Weights**: Heavy use of **Black (900)** and **Bold (700)** for headings. **Regular (400)** or **Medium (500)** for body.
-- **Style**: **UPPERCASE** for almost all headings and labels.
-- **Tracking**: `tracking-tighter` for large headlines, `tracking-widest` for small labels.
-- **Scale**: Extreme contrast. Headlines should be massive (`text-7xl` to `text-9xl`+). Body text is legible and objective.
-
-### Radius & Border
-
-- **Radius**: `0px` (Strictly Rectangular). No rounded corners.
-- **Borders**: Thick, visible borders (`border-2` or `border-4`). Used to define the grid.
-
-### Shadows & Effects
-
-- **Shadows**: No drop shadows. The design maintains flatness. Only use subtle ring shadows for compositional geometry (e.g., `shadow-[0_0_0_8px_rgba(255,48,0,0.1)]` for accent circles).
-- **Effects**: Interactive elements use simple color inversion (Black → White, White → Red), scale transforms (1.0 → 1.05), rotation (0deg → 90deg for plus icons), and vertical translation (-1px lift on hover).
-
-### Textures & Patterns (Critical for Depth)
-
-These CSS-based patterns add visual richness while maintaining the flat, objective aesthetic:
-
-- **Grid Pattern** (`.swiss-grid-pattern`):
-  - Subtle 24×24px grid lines at 3% opacity
-  - Applied to hero composition area, blog sidebar, muted backgrounds
-  - Creates visible structure without overwhelming content
-
-- **Dot Matrix** (`.swiss-dots`):
-  - Radial gradient dots, 16×16px spacing, 4% opacity
-  - Applied to section headers, feature sidebars
-  - Evokes traditional print techniques
-
-- **Diagonal Lines** (`.swiss-diagonal`):
-  - 45-degree repeating lines, 10px spacing, 2% opacity
-  - Applied to benefits sidebar, accent backgrounds
-  - Adds directional energy to static layouts
-
-- **Noise Texture** (`.swiss-noise`):
-  - Fractal noise overlay via SVG filter, 1.5% opacity
-  - Applied globally to body background
-  - Simulates paper texture, adds warmth to stark white backgrounds
-
-**Application Strategy**: Use patterns on muted gray backgrounds (`#F2F2F2`) and occasionally on white surfaces. Never apply patterns to pure black backgrounds or red accent areas. Patterns should enhance, not dominate.
-
-## Component Stylings
+## Components
 
 ### Buttons
 
-- **Shape**: Strictly rectangular (`rounded-none`).
-- **Style**: Solid Black background with White text (Primary). White background with Black border (Secondary).
-- **Hover**: Invert colors or switch to Swiss Red (`#FF3000`).
-- **Typography**: Uppercase, bold, tracking-wide.
+- Primary: green fill, two-pixel foreground border, full radius and hard foreground shadow.
+- Hover moves up/left 2px and extends the shadow; active moves down/right and reduces it.
+- Secondary: surface or transparent fill, foreground border and yellow-tint hover.
+- Minimum height is 48px on touch surfaces and 44px elsewhere.
 
-### Cards / Containers
+### Inputs and filters
 
-- **Structure**: Defined by their borders (`border-black`).
-- **Background**: White or Muted Gray (`#F2F2F2`).
-- **Padding**: Generous and uniform (`p-8`, `p-12`).
-- **Hover**: Entire card background changes color (e.g., to Swiss Red or Black) with text color inversion.
+- Surface background, two-pixel border, 12–14px radius.
+- Controls remain compact at 44–48px; narrow viewports do not make them huge.
+- Focus uses an accent border and hard accent/focus-yellow shadow.
+- Long filter groups become chips plus an accessible mobile filter sheet.
 
-### Inputs
+### Sticker cards
 
-- **Style**: Underlined (`border-b`) or solid rectangular box with thick border.
-- **Focus**: Sharp change in border color to Swiss Red. No glow rings.
+- Surface background, two-pixel border, 16–22px radius and a pale hard shadow.
+- Hover may rotate at most one degree and scale at most 1.01.
+- Evidence and operational queues remain still.
 
-## Layout Strategy
+### Official/community pair
 
-- **The Grid**: The grid is God. It should often be **visible** (using borders on elements).
-- **Asymmetry**: Embrace asymmetrical balance. A large photo on the left balanced by negative space and small text on the right.
-- **Alignment**: Strict left alignment for text.
-- **Separators**: Use horizontal and vertical lines to divide sections.
+- Official status uses blue/neutral treatment and a building icon.
+- Community verification uses purple treatment and a people/check icon.
+- `Official status · RESOLVED` may coexist with `Community verification · DISPUTED`.
 
-## Non-Genericness (The "Bold" Factor)
+### Incident cards
 
-This implementation goes beyond "generic Swiss style" by incorporating:
+Show reference, category, title, summary, safe location, both statuses, assigned verified organizations, report/affected/comment counts, latest update and age. Actions have a separate footer. Do not wrap independent actions in one giant link.
 
-- **Massive Responsive Typography**: Headlines scale from `text-6xl` (mobile) to `text-[10rem]` (desktop). Let words be images.
-- **Visible Structure**: The layout grid is made tangible through:
-  - Thick 4px black borders defining sections
-  - Visible grid patterns (24px) on backgrounds
-  - Asymmetric column ratios (8:4, 7:5, 5:7) creating dynamic tension
-- **Numbered Section Labels**: Every major section has a prefix (01. System, 02. Method, 03. Advantages, 04. Journal) in red accent with uppercase tracking
-- **Layered Geometric Compositions**:
-  - Hero features abstract Bauhaus-style composition with overlapping shapes
-  - Product detail uses 2×2 grid of geometric elements with different texture patterns
-  - Each composition combines circles, rectangles, lines in purposeful arrangement
-- **Pattern-Based Texture**: Four distinct CSS patterns (grid, dots, diagonal, noise) applied strategically to create depth without shadows
-- **Bold Interaction States**:
-  - Full color inversions (not just opacity fades)
-  - Rotating icons (plus signs spin 90°)
-  - Scale transforms on hover
-  - Vertical slide animations in navigation
-- **Active Negative Space**: Generous padding (p-12, p-24) and asymmetric layouts create breathing room and visual tension
-- **Functional Color System**: Red is used only for:
-  - Primary CTAs and accents
-  - Hover states as visual feedback
-  - Section number prefixes
-  - Never as decorative fill
+### Tables and maps
 
-## Spacing & Iconography
+- Government and admin use tables where comparison matters.
+- Maps use subdued land/water colors and shape/icon labels alongside color.
+- Every operational map has a table/list alternative.
+- Exact coordinates appear only to authorized operational users.
 
-- **Spacing**: High density in information clusters (tables), but high spaciousness in narrative sections.
-- **Iconography**: Use `lucide-react` icons, but treat them as functional symbols. Stroke width should match typography. Often enclosed in geometric shapes (squares/circles).
+## Responsive shells
 
-## Animation
+### Public and citizen desktop
 
-- **Feel**: Instant, mechanical, snappy, precise. Movement is purposeful and geometric.
-- **Transitions**: `duration-200 ease-out` or `duration-150 ease-linear` for rapid feedback. No elastic or spring animations.
-- **Micro-interactions**:
-  - **Navigation Links**: Vertical slide animation with color change (text slides up, red replacement slides in from below)
-  - **Stats Cards**: Scale transform on numbers (1.0 → 1.05), rotating plus icons (0° → 90°), background color snap (black → red)
-  - **Feature Cards**: Color inversion on hover (white → accent red), arrow rotation (-45° → 0°)
-  - **Testimonials**: Subtle upward lift (-1px translateY), border color change (black → red), quote text color change
-  - **FAQ Cards**: Rotating plus icons, full background color inversion (white → red)
-  - **Buttons**: Instant background color changes, no scale transforms
-- **Hover States**: Always indicate interactivity through color, scale, or position changes—never subtle fades. Swiss style is bold and immediate.
+- Sticky compact public header and 1200px public container.
+- Citizen layout: 220–250px context rail, 680–760px feed, optional 280–320px rail.
+- Filters use a compact toolbar and removable chips.
 
-## Responsive Strategy
+### Citizen mobile
 
-The Swiss style must maintain its bold character across all screen sizes:
+- Use a floating capsule navigation inset from the screen and safe area.
+- Destinations: Feed, Map, Report, Activity, Profile.
+- Report rises from the bar in a bordered green circle with a hard shadow.
+- Selected items use bold icons, labels and a tinted geometric background.
+- Navigation never covers content or actions.
 
-**Mobile (< 768px)**:
+### Government, NGO and admin
 
-- Typography scales down but remains bold: `text-6xl` for hero headlines
-- Single column layouts with vertical stacking
-- Borders remain 4px thick (never thin out)
-- CTAs become full-width buttons with consistent height (`h-16`)
-- Grid patterns and textures maintain same opacity/scale
-- Stats become 2×2 grid instead of 1×4
-- Navigation collapses (visible only on desktop)
+- Desktop uses a collapsible 240–280px sidebar and compact top toolbar.
+- Government begins with urgent queues and assignments, then map and charts.
+- NGO begins with relevant issues, proposals, approvals and milestones.
+- Admin begins with reviews, moderation, routing, failures and audit context.
+- Mobile uses the same floating shell with role-specific destinations; tables become deliberate list rows or accessible horizontal regions.
 
-**Tablet (768px - 1024px)**:
+## Screen direction
 
-- Two-column layouts for testimonials, FAQ, features
-- Typography scales to `text-8xl` for headlines
-- Asymmetric grids start to appear
-- Touch targets remain minimum 44×44px
+### Landing
 
-**Desktop (1024px+)**:
+Lead with a concrete public-service statement and `Report a problem`. Follow with real incidents, the accountability route, outcomes, organization participation and privacy. Use bold Outfit typography and geometric product-native art rather than stock photography.
 
-- Full asymmetric grid layouts (8:4, 7:5, 5:7 ratios)
-- Maximum typography scale (`text-9xl`, `text-[10rem]`)
-- Multi-column layouts (3-4 columns for blog, footer)
-- Sticky positioning for section headers
-- All hover states and micro-interactions active
+### Feed
 
-**Key Principles**:
+Use compact segmented tabs for For You, Nearby and Following. Show category chips and one `Filters` control; secondary status, area and organization filters live in an accessible sheet/popover. Cards should feel like civic records, not oversized marketing tiles.
 
-- Never compromise on border thickness or contrast
-- Maintain uppercase typography and tight tracking
-- Patterns remain visible at all breakpoints
-- Red accent color used consistently across devices
-- Spacing remains generous (reduce from p-24 to p-12 on mobile, but never less)
+### Incident detail
 
-## Accessibility
+Above the fold: title, safe location, official/community states, assigned organizations, evidence/report count and civic actions. The timeline is the dominant narrative below.
 
-- **Contrast**: The Black/White/Red scheme naturally offers ultra-high contrast (21:1 for black/white). Ensure red text on white meets AA standards.
-- **Focus**: High-contrast 2px ring in red (`focus-visible:ring-2 focus-visible:ring-swiss-accent focus-visible:ring-offset-2`)
-- **Touch Targets**: All interactive elements minimum 44×44px on mobile
-- **Motion**: All animations are CSS-based and respect `prefers-reduced-motion`
-- **Semantics**: Proper heading hierarchy, semantic HTML5 elements, ARIA labels where needed
-  </design-system>
+### Authentication
+
+Desktop uses a split layout: concise trust copy or geometric art beside a focused form card. Mobile uses one clean form. Provide password visibility, recovery, duplicate-email feedback and preserved values.
+
+### Reporting and onboarding
+
+Use a visible stepper, one coherent task per step, compact fields, save status, back/continue controls and a final review screen. Uploads show purpose, privacy, progress, remove and retry.
+
+## Motion
+
+- Controls use `cubic-bezier(.34,1.56,.64,1)` over 220–300ms.
+- Marketing entrances pop or slide; decorative icons may wiggle on hover.
+- Landing routes may draw on scroll and short marquees may explain the civic loop.
+- Product workflows use restrained opacity and transform.
+- No scroll-jacking, bouncing evidence, resolution confetti or competing motion.
+- Reduced-motion disables Lenis, parallax, canvas animation, marquee, bounce and wiggle.
+
+## Accessibility contract
+
+- WCAG 2.2 AA; 4.5:1 normal text and 3:1 large/non-text interface contrast.
+- Minimum 44px targets, with 48px preferred on mobile.
+- Semantic headings, landmarks, labels and live status/error announcements.
+- Visible focus, no traps, and preserved form values.
+- Support 200% zoom and at least 30% text expansion.
+- Provide captions, alt text and non-map alternatives.
+- Render comments, mentions and AI output as untrusted plain text.
+
+## Final design test
+
+Inspect every route at 390px, 768px, 1280px and 1440px in light and dark modes. Verify filter density, safe-area navigation, keyboard focus, reduced motion, loading/empty/error states, long text and every active control. A screen fails if it resembles stacked desktop inputs, generic admin scaffolding, an ungrounded marketing template or a decorative map without a usable alternative.

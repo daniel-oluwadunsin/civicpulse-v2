@@ -25,7 +25,14 @@ describe.runIf(enabled)("authentication against real PostgreSQL", () => {
     expect(registration.body.data.userId).toMatch(/^[0-9a-f-]{36}$/);
     const me = await agent.get("/api/v1/auth/me").expect(200);
     expect(me.body.data.user.email).toBe(email);
-    await agent.post("/api/v1/auth/logout").send({}).expect(204);
+    const secondAgent = request.agent(app);
+    await secondAgent
+      .post("/api/v1/auth/login")
+      .send({ email, password: "correct horse battery staple" })
+      .expect(200);
+    await agent.post("/api/v1/auth/logout-all").send({}).expect(204);
     await agent.get("/api/v1/auth/me").expect(401);
+    await secondAgent.get("/api/v1/auth/me").expect(401);
+    await agent.post("/api/v1/auth/logout").send({}).expect(204);
   });
 });

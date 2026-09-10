@@ -1,10 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { LocateFixed, Upload } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { Icon } from "../../app/icons";
 import { api } from "../../lib/api";
 import { MapPinPicker } from "./MapPinPicker";
 
 type Draft = { id: string };
+type DraftDetail = Draft & {
+  status: string;
+  latitude?: number;
+  longitude?: number;
+  location_accuracy_meters?: number;
+  location_source?: "DEVICE" | "MAP";
+  user_confirmed_location: boolean;
+  media: Array<{ id: string; media_kind: string; bytes: number }>;
+};
 type Location = {
   latitude: number;
   longitude: number;
@@ -14,14 +24,39 @@ type Location = {
 };
 
 export function ReportPage() {
-  const [draft, setDraft] = useState<Draft>();
+  const [params, setParams] = useSearchParams();
+  const queryClient = useQueryClient();
+  const [createdDraft, setCreatedDraft] = useState<Draft>();
   const [location, setLocation] = useState<Location>();
   const [message, setMessage] = useState<string>();
   const [uploading, setUploading] = useState(false);
+  const resumed = useQuery({
+    queryKey: ["report-draft", params.get("draft")],
+    queryFn: () => api<DraftDetail>(`/reports/${params.get("draft")}`),
+    enabled: !!params.get("draft"),
+    retry: false,
+  });
+  const draft = createdDraft ?? resumed.data;
+  const resumedLocation: Location | undefined =
+    resumed.data?.latitude !== undefined && resumed.data.longitude !== undefined
+      ? {
+          latitude: Number(resumed.data.latitude),
+          longitude: Number(resumed.data.longitude),
+          ...(resumed.data.location_accuracy_meters !== undefined
+            ? { accuracyMeters: resumed.data.location_accuracy_meters }
+            : {}),
+          source: resumed.data.location_source ?? "MAP",
+          confirmed: resumed.data.user_confirmed_location,
+        }
+      : undefined;
+  const activeLocation = location ?? resumedLocation;
   const create = useMutation({
     mutationFn: (payload: unknown) =>
       api<Draft>("/reports", { method: "POST", body: JSON.stringify(payload) }),
-    onSuccess: setDraft,
+    onSuccess: (created) => {
+      setCreatedDraft(created);
+      setParams({ draft: created.id }, { replace: true });
+    },
     onError: (error: Error) => setMessage(error.message),
   });
   const save = useMutation({
@@ -134,6 +169,9 @@ export function ReportPage() {
           kind,
         }),
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["report-draft", draft.id],
+      });
       setMessage(
         "Evidence uploaded and verified. It remains restricted until moderation allows display.",
       );
@@ -148,13 +186,22 @@ export function ReportPage() {
       event.target.value = "";
     }
   };
+  const removeMedia = useMutation({
+    mutationFn: (mediaId: string) =>
+      api<void>(`/reports/${draft!.id}/media/${mediaId}`, {
+        method: "DELETE",
+      }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["report-draft", draft?.id],
+      }),
+    onError: (error: Error) => setMessage(error.message),
+  });
   return (
     <main className="report-page">
-      <p className="eyebrow signal">CIVICPULSE / REPORT A PROBLEM</p>
+      <p className="eyebrow signal">CivicPulse / Report a problem</p>
       <h1>
-        WHAT NEEDS
-        <br />
-        <span>ATTENTION?</span>
+        What needs <span>attention?</span>
       </h1>
       <p className="lede">
         Describe what you saw in your own words. You do not need to know the
@@ -174,8 +221,11 @@ export function ReportPage() {
             Landmark or address (optional)
             <input name="typedLocation" placeholder="e.g. beside Kuto Market" />
           </label>
-          <button className="button button--ink" disabled={create.isPending}>
-            {create.isPending ? "CREATING DRAFT…" : "CONTINUE"}
+          <button
+            className="button button--primary"
+            disabled={create.isPending}
+          >
+            {create.isPending ? "Creating draft…" : "Continue"}
           </button>
         </form>
       ) : (
@@ -189,7 +239,7 @@ export function ReportPage() {
               attachment.
             </p>
             <label className="button">
-              <Upload />
+              <Icon name="gallery" />
               {uploading ? "UPLOADING…" : "ADD IMAGE, AUDIO, OR VIDEO"}
               <input
                 className="sr-only"
@@ -199,6 +249,22 @@ export function ReportPage() {
                 disabled={uploading}
               />
             </label>
+            {resumed.data?.media.map((item) => (
+              <div className="form-message" key={item.id}>
+                <span>
+                  {item.media_kind ?? "evidence"} ·{" "}
+                  {Math.ceil(item.bytes / 1000)} KB
+                </span>{" "}
+                <button
+                  className="button"
+                  type="button"
+                  disabled={removeMedia.isPending}
+                  onClick={() => removeMedia.mutate(item.id)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
           </div>
           <div className="report-step">
             <p className="eyebrow">02 / LOCATION</p>
@@ -208,10 +274,10 @@ export function ReportPage() {
               className="button button--ink"
               onClick={useLocation}
             >
-              <LocateFixed /> Use device location
+              <Icon name="location" /> Use device location
             </button>
             <MapPinPicker
-              value={location}
+              value={activeLocation}
               onPick={(pin) =>
                 persistLocation({ ...pin, source: "MAP", confirmed: true })
               }
@@ -225,7 +291,7 @@ export function ReportPage() {
                   step="any"
                   min="-90"
                   max="90"
-                  defaultValue={location?.latitude}
+                  defaultValue={activeLocation?.latitude}
                   required
                 />
               </label>
@@ -237,7 +303,7 @@ export function ReportPage() {
                   step="any"
                   min="-180"
                   max="180"
-                  defaultValue={location?.longitude}
+                  defaultValue={activeLocation?.longitude}
                   required
                 />
               </label>
@@ -245,10 +311,10 @@ export function ReportPage() {
                 Confirm typed coordinates
               </button>
             </form>
-            {location && (
+            {activeLocation && (
               <p className="form-message">
-                Location confirmed at {location.latitude.toFixed(5)},{" "}
-                {location.longitude.toFixed(5)}.
+                Location confirmed at {activeLocation.latitude.toFixed(5)},{" "}
+                {activeLocation.longitude.toFixed(5)}.
               </p>
             )}
           </div>
@@ -261,7 +327,7 @@ export function ReportPage() {
             </p>
             <button
               className="button button--signal"
-              disabled={!location || submit.isPending}
+              disabled={!activeLocation || submit.isPending}
               onClick={() => submit.mutate()}
             >
               {submit.isPending ? "SUBMITTING…" : "SUBMIT REPORT"}

@@ -1,6 +1,7 @@
 {
   "name": "civicpulse",
   "private": true,
+  "type": "module",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -10,10 +11,15 @@
     "dev:web": "npm run dev --workspace=@civicpulse/web",
     "dev:api": "npm run dev:api --workspace=@civicpulse/server",
     "dev:worker": "npm run dev:worker --workspace=@civicpulse/server",
-    "build": "npm run build --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build --workspace=@civicpulse/shared && npm run build --workspace=@civicpulse/server && npm run build --workspace=@civicpulse/web",
+    "typecheck": "npm run build --workspace=@civicpulse/shared && npm run typecheck --workspace=@civicpulse/server && npm run typecheck --workspace=@civicpulse/web",
     "test": "npm run test --workspaces --if-present",
+    "lint": "eslint apps packages --max-warnings=25",
+    "format": "prettier --write 'apps/**/*.{ts,tsx,css}' 'packages/**/*.ts' '*.{json,js}'",
+    "format:check": "prettier --check 'apps/**/*.{ts,tsx,css}' 'packages/**/*.ts' '*.{json,js}'",
     "test:integration": "npm run test:integration --workspace=@civicpulse/server",
+    "test:e2e": "playwright test",
+    "test:e2e:functional": "playwright test --config=playwright.functional.config.ts",
     "db:migrate": "npm run db:migrate --workspace=@civicpulse/server",
     "db:status": "npm run db:status --workspace=@civicpulse/server",
     "start:api": "npm run start:api --workspace=@civicpulse/server",
@@ -21,5 +27,14 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.6",
+    "prettier": "^3.9.6",
+    "typescript-eslint": "^8.70.0"
   }
 }

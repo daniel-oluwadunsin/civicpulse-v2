@@ -2,92 +2,75 @@
 
 ## Brand premise
 
-CivicPulse makes public problems legible and actionable. It turns a resident’s evidence into a traceable civic record, routes that record to the organizations whose verified mandates apply, and keeps the response visible until the community can confirm or challenge the outcome.
+CivicPulse turns resident evidence into a traceable public record and keeps responsibility, official action, and community verification visible. The product loop is **report → understand → locate → route → act → verify**.
 
-Brand promise: **Make the signal impossible to ignore.**
+Brand promise: **Move public problems forward.**
 
-Useful product line: **REPORT. ROUTE. RESOLVE.**
-
-The voice is direct, calm, specific, and public-minded. It should feel like a well-run civic service or transit map: confident because the system is clear, not because the language is loud.
+The voice is plain, assured, warm, and specific. It should feel civic without looking bureaucratic, and energetic without treating serious infrastructure problems as entertainment.
 
 ## Visual idea
 
-The identity combines a civic grid with a pulse route. The black square represents the built public system; the red line is a report moving through evidence, jurisdiction, responsibility, and action. The mark is deliberately geometric so it works as an app icon, status signal, map marker, and organization-facing product signature.
+The identity uses a stable civic grid with controlled geometric interruptions. Rounded blocks, route dots, circles, and directional fragments represent many public signals becoming one legible path to action. The artwork is deliberately code-native and abstract: no generic ECG line, map-pin logo, national emblem imitation, political symbolism, or invented agency branding.
 
-The visual language is Swiss International Style as defined in [`docs/design.md`](design.md): visible structure, asymmetry, active negative space, objective typography, and red used as a functional signal.
+The compact mark is an open Civic Green `C` built from one geometric block with a Civic Gold signal dot. The wordmark uses Outfit and highlights “Pulse” in green. This mark is authored once in the shared application shell; page components must not redraw it.
 
-## Core palette
+## Palette
 
-| Token  | Hex       | Use                                                  |
-| ------ | --------- | ---------------------------------------------------- |
-| Canvas | `#FFFFFF` | page canvas, cards, breathing room                   |
-| Ink    | `#000000` | type, borders, primary controls, structural blocks   |
-| Field  | `#F2F2F2` | secondary surfaces, section rhythm, pattern fields   |
-| Signal | `#FF3000` | CTAs, warnings, section numbers, active route, focus |
+| Token | Light | Dark | Use |
+| --- | --- | --- | --- |
+| Civic Green | `#008751` | `#43CF88` | identity, primary action, verified progress |
+| Civic Gold | `#F4C542` | `#F4C542` | focus, attention, small geometric accents |
+| Ink | `#12231A` | `#F4FBF6` | text, key borders, hard-shadow anchors |
+| Warm Page | `#FFFDF5` | `#0B1510` | page background |
+| Canvas | `#FFFFFF` | `#122019` | cards, forms, navigation |
+| Official Blue | `#2563A6` | `#6FA8E2` | official-state semantics only |
+| Community Purple | `#6D3A8A` | `#C198D7` | community-state semantics only |
 
-Do not introduce extra brand colors. Photographic imagery may retain restrained natural tones, but UI surfaces and controls remain in the strict palette.
+Green communicates CivicPulse identity and verified forward movement; it does not mean every item is resolved. Gold is a focus and attention color, not a warning substitute. Danger, warning, official, and community states retain independent semantic colors.
 
 ## Typography
 
-- Primary family: Inter.
-- Headings: 700–900, generally uppercase, tight tracking, flush-left.
-- Body: 400–500, normal sentence case for readability.
-- Labels and metadata: 600–800, uppercase, wide tracking.
-- Let scale establish hierarchy. Avoid decorative serif display type and avoid rounded “friendly” UI typography.
+- Display and interface headings: **Outfit Variable**, usually 650–800 with tight tracking.
+- Body and controls: **Plus Jakarta Sans Variable**, 400–750.
+- Fallbacks: Noto Sans and the system sans-serif stack.
+- Sentence case is the default. Short kickers and metadata may use uppercase with restrained tracking.
 
-## Geometry and texture
+## Geometry and depth
 
-- Radius: `0px`.
-- Borders: visible black structure, typically 2px or 4px for major divisions.
-- Depth: grid, dot, diagonal, and restrained noise patterns; never drop shadows or glossy gradients.
-- Layout: asymmetric 8:4, 7:5, or 5:7 relationships where content benefits from tension and clear hierarchy.
-- Motion: fast, mechanical, and purposeful; always respect `prefers-reduced-motion`.
+- Build layouts on a dependable grid, then add at most one or two playful geometric interruptions per composition.
+- Cards use purposeful silhouettes: `18–26px` for prominent product cards, `6–12px` for compact controls, and one cut or tight corner where useful.
+- Primary actions are pill-shaped and use a crisp hard shadow. Routine operational controls stay flatter.
+- Shadows are solid offsets, not diffuse glass effects.
+- Avoid decorative gradients, glassmorphism, excessive floating shapes, or a different card treatment for every feature.
 
-## Mark usage
+## Icons and illustration
 
-Primary assets:
+Iconsax/Vuesax is the primary interface family, normalized through the shared `Icon` wrapper. Linear icons support routine actions; Bold icons identify active navigation. Every icon-only control requires an accessible name.
 
-- [`civicpulse-logo.svg`](../apps/web/public/brand/civicpulse-logo.svg) — full horizontal lockup for navigation and marketing surfaces.
-- [`civicpulse-mark.svg`](../apps/web/public/brand/civicpulse-mark.svg) — standalone mark for compact UI, avatars, map legends, and app launch surfaces.
-- [`civicpulse-mark-inverse.svg`](../apps/web/public/brand/civicpulse-mark-inverse.svg) — mark for black surfaces.
-- [`civicpulse-wordmark.svg`](../apps/web/public/brand/civicpulse-wordmark.svg) — stacked wordmark for narrow layouts or editorial compositions.
-- [`civicpulse-wordmark-inverse.svg`](../apps/web/public/brand/civicpulse-wordmark-inverse.svg) — reversed stacked wordmark.
-- [`favicon.svg`](../apps/web/public/icons/favicon.svg) — canonical browser favicon; keep it at native viewBox proportions.
-- [`favicon-16x16.png`](../apps/web/public/icons/favicon-16x16.png) and [`favicon-32x32.png`](../apps/web/public/icons/favicon-32x32.png) — legacy browser favicon sizes.
-- [`apple-touch-icon.png`](../apps/web/public/icons/apple-touch-icon.png) — 180px iOS home-screen icon.
-- [`icon-192.png`](../apps/web/public/icons/icon-192.png) and [`icon-512.png`](../apps/web/public/icons/icon-512.png) — installable-app icon sizes referenced by `site.webmanifest`.
-- [`civicpulse-og-card.svg`](../apps/web/public/brand/civicpulse-og-card.svg) and [`civicpulse-og-card.png`](../apps/web/public/brand/civicpulse-og-card.png) — canonical vector and raster social/share card compositions.
+The current product artwork is code-native:
 
-Clear space: preserve at least one pulse-grid unit around the mark. Do not add drop shadows, outlines, gradients, bevels, extra symbols, or alternate colors. Never stretch the lockup or place the red signal on a red field.
+- the landing hero combines CSS geometry with an inline privacy-safe infrastructure illustration;
+- [`nigeria-grid.svg`](../apps/web/public/brand/nigeria-grid.svg) explains the accountability route and is not an operational boundary map;
+- [`civicpulse-mark.svg`](../apps/web/public/brand/civicpulse-mark.svg), [`civicpulse-logo.svg`](../apps/web/public/brand/civicpulse-logo.svg), and the inverse/stacked variants are the canonical exported identity assets;
+- [`civicpulse-og-card.svg`](../apps/web/public/brand/civicpulse-og-card.svg) is the canonical social composition; its PNG and the installable app icons are deterministic browser renders of the checked-in SVG sources;
+- production dashboard maps must be generated from versioned PostGIS geometry and include a list/table alternative.
 
-## Photography and illustration
+Raster imagery is optional, secondary, and never used to fabricate incidents or metrics. The experimental cartography renders under `apps/web/public/brand` are not approved product assets and are not referenced by the application.
 
-Use visuals that show public infrastructure, evidence, maps, field conditions, and useful civic action. Keep people anonymous unless the product explicitly requires a consented portrait. Avoid disaster voyeurism, poverty stereotypes, political symbolism, campaign imagery, and invented official signage.
+## Motion
 
-Generated project assets:
+- Motion handles route and component transitions.
+- GSAP ScrollTrigger handles the landing route drawing and restrained parallax.
+- Lenis is limited to the landing page and remains synchronized with ScrollTrigger.
+- Authenticated workflows use short, functional transitions rather than showcase animation.
+- Under `prefers-reduced-motion`, smooth scrolling, particles, pinned scenes, parallax, and non-essential transforms are disabled.
 
-- [`civicpulse-hero.png`](../apps/web/public/brand/civicpulse-hero.png) — wide landing-page composition with infrastructure grid and negative space for copy.
-- [`civicpulse-evidence-drainage.png`](../apps/web/public/brand/civicpulse-evidence-drainage.png) — documentary drainage detail for issue context, evidence, or “how it works” sections.
+## Product language
 
-Both assets were generated with the built-in ImageGen workflow and saved into the project after visual review. They contain no intentional text, logo, watermark, or political symbol.
+Prefer “Report a problem,” “Confirm location,” “Official status,” “Community verification,” “Assigned organizations,” “Express interest,” and “Propose intervention.” Never say that AI knows who is responsible, that a fix is guaranteed, or that an NGO can claim a public asset.
 
-## Recommended UI language
+## Research and provenance
 
-Prefer:
+The September 2026 refresh reviewed contemporary bottom-navigation, civic dashboard, and playful geometric identity patterns. The resulting system uses the durable parts of those references—five labelled mobile destinations, an elevated central report action, stable whitespace, modular dashboards, and restrained geometric personality—without copying a specific interface or brand.
 
-- “Report a problem”
-- “Confirm location”
-- “Processing your report”
-- “Assigned organizations”
-- “Official status”
-- “Community verification”
-- “Add evidence”
-- “Dispute resolution”
-
-Avoid vague or overpromising language such as “AI knows who is responsible,” “guaranteed fix,” “instant resolution,” or a single opaque performance score.
-
-## Asset generation prompts
-
-Hero prompt summary: Swiss International Style editorial illustration of a Nigerian civic-infrastructure network, abstract road/drainage/bridge/map grid, one sparse `#FF3000` route, right-weighted composition with left negative space, no text, no logo, no watermark, no gradients, no stereotypical imagery.
-
-Evidence prompt summary: respectful documentary photograph of a Nigerian urban drainage channel beside a wet road after light rain, visible but non-sensational blockage, natural overcast light, no identifiable people, no text, no logos, no watermark.
+The landing and product artwork currently shipped is SVG/CSS authored in the repository. No generated photographic or 3D asset is part of the active interface, so there is no external-image provenance to disclose for the current design.

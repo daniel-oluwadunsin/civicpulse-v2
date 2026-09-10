@@ -13,9 +13,10 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
     const result = await query<{
       id: string;
       email: string;
+      display_name: string | null;
       platform_role: string | null;
     }>(
-      `select u.id, u.email, u.platform_role from sessions s join users u on u.id=s.user_id where s.token_hash=$1 and s.expires_at > now() and s.revoked_at is null and u.account_status='ACTIVE'`,
+      `select u.id, u.email, u.display_name, u.platform_role from sessions s join users u on u.id=s.user_id where s.token_hash=$1 and s.expires_at > now() and s.revoked_at is null and u.account_status='ACTIVE'`,
       [hash(token)],
     );
     const user = result.rows[0];
@@ -28,12 +29,39 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
     req.user = {
       id: user.id,
       email: user.email,
+      ...(user.display_name ? { displayName: user.display_name } : {}),
       platformRole: user.platform_role,
     };
     next();
   } catch (error) {
     next(error);
   }
+};
+export const optionalAuth: RequestHandler = async (req, _res, next) => {
+  const token = req.cookies?.[env.SESSION_COOKIE_NAME];
+  if (!token) return next();
+  try {
+    const result = await query<{
+      id: string;
+      email: string;
+      display_name: string | null;
+      platform_role: string | null;
+    }>(
+      `select u.id,u.email,u.display_name,u.platform_role from sessions s join users u on u.id=s.user_id where s.token_hash=$1 and s.expires_at>now() and s.revoked_at is null and u.account_status='ACTIVE'`,
+      [hash(token)],
+    );
+    const user = result.rows[0];
+    if (user)
+      req.user = {
+        id: user.id,
+        email: user.email,
+        ...(user.display_name ? { displayName: user.display_name } : {}),
+        platformRole: user.platform_role,
+      };
+  } catch {
+    // Optional authentication must not make a public read unavailable.
+  }
+  next();
 };
 export const requirePlatformRole =
   (...roles: string[]): RequestHandler =>

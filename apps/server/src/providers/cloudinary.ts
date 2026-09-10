@@ -13,6 +13,11 @@ export const allowedMedia = new Map([
   ["audio", ["audio/mpeg", "audio/mp4", "audio/wav", "audio/webm"]],
   ["video", ["video/mp4", "video/webm", "video/quicktime"]],
 ]);
+export const mediaLimits = {
+  image: { bytes: 15_000_000, count: 8 },
+  audio: { bytes: 25_000_000, count: 3 },
+  video: { bytes: 100_000_000, count: 3 },
+} as const;
 export function assertCloudinaryConfigured() {
   if (!env.cloudinaryConfigured)
     throw new AppError(
@@ -24,6 +29,8 @@ export function assertCloudinaryConfigured() {
 export function signUpload(input: {
   reportId: string;
   kind: "image" | "audio" | "video";
+  mimeType: string;
+  bytes: number;
 }) {
   assertCloudinaryConfigured();
   const timestamp = Math.floor(Date.now() / 1000);
@@ -32,7 +39,7 @@ export function signUpload(input: {
     timestamp,
     folder,
     type: "authenticated",
-    context: `report_id=${input.reportId}|kind=${input.kind}`,
+    context: `report_id=${input.reportId}|kind=${input.kind}|mime_type=${input.mimeType}|declared_bytes=${input.bytes}`,
   };
   return {
     ...params,
@@ -44,6 +51,60 @@ export function signUpload(input: {
     apiKey: env.CLOUDINARY_API_KEY!,
     cloudName: env.CLOUDINARY_CLOUD_NAME!,
   };
+}
+
+export function signEvidenceUpload(input: {
+  scopeId: string;
+  purpose: "GOVERNMENT" | "INTERVENTION" | "ORGANIZATION" | "AVATAR";
+  kind: "image" | "audio" | "video";
+  mimeType: string;
+  bytes: number;
+}) {
+  assertCloudinaryConfigured();
+  const timestamp = Math.floor(Date.now() / 1000);
+  const folder = `${env.CLOUDINARY_EVIDENCE_FOLDER}/${input.purpose.toLowerCase()}/${input.scopeId}`;
+  const params = {
+    timestamp,
+    folder,
+    type: "authenticated",
+    context: `scope_id=${input.scopeId}|purpose=${input.purpose}|kind=${input.kind}|mime_type=${input.mimeType}|declared_bytes=${input.bytes}`,
+  };
+  return {
+    ...params,
+    resource_type: input.kind === "image" ? "image" : "video",
+    signature: cloudinary.utils.api_sign_request(
+      params,
+      env.CLOUDINARY_API_SECRET!,
+    ),
+    apiKey: env.CLOUDINARY_API_KEY!,
+    cloudName: env.CLOUDINARY_CLOUD_NAME!,
+  };
+}
+
+export function signAvatarUpload(input: {
+  userId: string;
+  mimeType: string;
+  bytes: number;
+}) {
+  return signEvidenceUpload({
+    scopeId: input.userId,
+    purpose: "AVATAR",
+    kind: "image",
+    mimeType: input.mimeType,
+    bytes: input.bytes,
+  });
+}
+
+export async function destroyAsset(
+  publicId: string,
+  resourceType: "image" | "video",
+) {
+  assertCloudinaryConfigured();
+  return cloudinary.uploader.destroy(publicId, {
+    resource_type: resourceType,
+    type: "authenticated",
+    invalidate: true,
+  });
 }
 export async function verifyAsset(
   publicId: string,
@@ -62,11 +123,16 @@ export function authenticatedAssetUrl(
   format?: string | null,
 ) {
   assertCloudinaryConfigured();
-  return cloudinary.url(publicId, {
+  if (!format)
+    throw new AppError(
+      409,
+      "MEDIA_FORMAT_MISSING",
+      "Verified evidence is missing its delivery format.",
+    );
+  return cloudinary.utils.private_download_url(publicId, format, {
     resource_type: resourceType,
     type: "authenticated",
-    sign_url: true,
-    secure: true,
-    format: format ?? undefined,
+    expires_at: Math.floor(Date.now() / 1000) + 300,
+    attachment: false,
   });
 }

@@ -1,14 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 96" role="img" aria-labelledby="title desc">
-  <title id="title">CivicPulse</title>
-  <desc id="desc">CivicPulse civic accountability platform logo.</desc>
-  <rect width="96" height="96" fill="#fff"/>
-  <rect x="4" y="4" width="88" height="88" fill="#000"/>
-  <g stroke="#fff" stroke-width="1" opacity=".2">
-    <path d="M20 12v72M38 12v72M56 12v72M74 12v72M12 20h72M12 38h72M12 56h72M12 74h72"/>
-  </g>
-  <path d="M14 68h16V52h14V34h14v18h24v16" fill="none" stroke="#ff3000" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
-  <g fill="#ff3000"><rect x="11" y="65" width="6" height="6"/><rect x="79" y="65" width="6" height="6"/></g>
-  <text x="116" y="61" fill="#000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="43" font-weight="900" letter-spacing="-2">CIVIC</text>
-  <rect x="266" y="29" width="5" height="38" fill="#ff3000"/>
-  <text x="288" y="61" fill="#000" font-family="Inter, Arial, Helvetica, sans-serif" font-size="43" font-weight="900" letter-spacing="-2">PULSE</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 96" role="img" aria-labelledby="title desc"><title id="title">CivicPulse</title><desc id="desc">CivicPulse civic accountability platform logo.</desc><path d="M22 10h48a12 12 0 0 1 0 24H34v28h36a12 12 0 0 1 0 24H22c-7 0-12-5-12-12V22c0-7 5-12 12-12Z" fill="#008751"/><circle cx="80" cy="48" r="10" fill="#F4C542" stroke="#12231A" stroke-width="4"/><text x="116" y="64" fill="#12231A" font-family="Outfit,Arial,sans-serif" font-size="50" font-weight="800" letter-spacing="-2.5">Civic</text><text x="232" y="64" fill="#008751" font-family="Outfit,Arial,sans-serif" font-size="50" font-weight="800" letter-spacing="-2.5">Pulse</text></svg>

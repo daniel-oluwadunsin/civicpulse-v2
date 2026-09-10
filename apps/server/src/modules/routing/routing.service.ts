@@ -2,18 +2,49 @@ import type { PoolClient } from "pg";
 import { withGemini } from "../../providers/gemini.js";
 import { env } from "../../config/env.js";
 import { AppError } from "../../utils/errors.js";
+import { z } from "zod";
+const routingResultSchema = z.object({
+  primaryOrganizationId: z.string().uuid().nullable(),
+  primaryConfidence: z.number().min(0).max(1),
+  reason: z.string().min(1).max(2000),
+  supportingOrganizations: z
+    .array(
+      z.object({
+        organizationId: z.string().uuid(),
+        confidence: z.number().min(0).max(1),
+        reason: z.string().min(1).max(2000),
+      }),
+    )
+    .default([]),
+  reviewRequired: z.boolean(),
+  missingInformation: z.array(z.string()).default([]),
+});
 export async function resolveJurisdictions(
   client: PoolClient,
   longitude: number,
   latitude: number,
 ) {
-  const result = await client.query<{ id: string; type: string }>(
-    "select id,type from jurisdictions where active=true and ST_Covers(boundary,ST_SetSRID(ST_MakePoint($1,$2),4326)) order by case type when 'LGA' then 1 when 'STATE' then 2 when 'COUNTRY' then 3 else 4 end",
+  const result = await client.query<{
+    id: string;
+    type: string;
+    parent_id: string | null;
+  }>(
+    "select id,type,parent_id from jurisdictions where active=true and ST_IsValid(boundary) and ST_Covers(boundary,ST_SetSRID(ST_MakePoint($1,$2),4326)) order by case type when 'LGA' then 1 when 'STATE' then 2 when 'COUNTRY' then 3 else 4 end",
     [longitude, latitude],
   );
-  const lga = result.rows.find((row) => row.type === "LGA")?.id;
-  const state = result.rows.find((row) => row.type === "STATE")?.id;
-  if (!lga || !state)
+  const lgaRow = result.rows.find((row) => row.type === "LGA");
+  const stateRow = result.rows.find((row) => row.type === "STATE");
+  const lga = lgaRow?.id;
+  const state = stateRow?.id;
+  const lgaCount = result.rows.filter((row) => row.type === "LGA").length;
+  const stateCount = result.rows.filter((row) => row.type === "STATE").length;
+  if (
+    !lga ||
+    !state ||
+    lgaCount !== 1 ||
+    stateCount !== 1 ||
+    lgaRow.parent_id !== state
+  )
     return { lgaId: lga, stateId: state, reviewRequired: true };
   return { lgaId: lga, stateId: state, reviewRequired: false };
 }
@@ -37,8 +68,8 @@ export async function routeIncident(
     issue_categories: unknown;
     asset_types: unknown;
   }>(
-    `select distinct o.id,o.official_name,g.government_level,g.mandate_text,g.responsibilities,g.exclusions,g.issue_categories,g.asset_types from organizations o join government_profiles g on g.organization_id=o.id left join organization_jurisdictions oj on oj.organization_id=o.id where o.kind='GOVERNMENT' and o.active=true and o.verification_status='VERIFIED' and (g.government_level='FEDERAL' or oj.jurisdiction_id=any($1::uuid[]))`,
-    [[input.lgaId, input.stateId].filter(Boolean)],
+    `select distinct o.id,o.official_name,g.government_level,g.mandate_text,g.responsibilities,g.exclusions,g.issue_categories,g.asset_types from organizations o join government_profiles g on g.organization_id=o.id left join organization_jurisdictions oj on oj.organization_id=o.id where o.kind='GOVERNMENT' and o.active=true and o.verification_status='VERIFIED' and (g.issue_categories='[]'::jsonb or g.issue_categories ? $2) and (g.government_level='FEDERAL' or oj.jurisdiction_id=any($1::uuid[]))`,
+    [[input.lgaId, input.stateId].filter(Boolean), input.category],
   );
   if (!candidates.rowCount)
     return {
@@ -56,18 +87,30 @@ export async function routeIncident(
         config: { responseMimeType: "application/json" },
       }),
   );
-  const parsed = JSON.parse(response.text ?? "{}");
+  const parsed = routingResultSchema.parse(JSON.parse(response.text ?? "{}"));
   const selected = [
     parsed.primaryOrganizationId,
     ...(parsed.supportingOrganizations ?? []).map(
       (x: { organizationId: string }) => x.organizationId,
     ),
-  ].filter(Boolean);
+  ].filter((id): id is string => typeof id === "string");
   if (selected.some((id: string) => !candidateIds.includes(id)))
     throw new AppError(
       502,
       "AI_INVALID_RESPONSE",
       "Gemini returned an organization outside the supplied candidate set.",
+    );
+  const closestAlternative = Math.max(
+    0,
+    ...parsed.supportingOrganizations.map((item) => item.confidence),
+  );
+  parsed.reviewRequired =
+    parsed.reviewRequired ||
+    !parsed.primaryOrganizationId ||
+    parsed.primaryConfidence < 0.8 ||
+    parsed.primaryConfidence - closestAlternative < 0.15 ||
+    parsed.missingInformation.some((item) =>
+      /asset ownership|owner/i.test(item),
     );
   await client.query(
     "insert into routing_decisions(incident_id,candidate_organization_ids,selected_organization_ids,rationale,primary_confidence,missing_information,review_required,model_name) values($1,$2,$3,$4,$5,$6,$7,$8)",
@@ -82,6 +125,7 @@ export async function routeIncident(
       env.GEMINI_MODEL_ROUTING ?? null,
     ],
   );
+  if (parsed.reviewRequired) return parsed;
   for (const id of selected) {
     const support = (parsed.supportingOrganizations ?? []).find(
       (x: { organizationId: string }) => x.organizationId === id,

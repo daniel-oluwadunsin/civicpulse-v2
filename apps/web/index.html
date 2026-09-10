@@ -3,10 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#008751" />
+    <meta name="description" content="Report Nigerian public infrastructure problems, follow verified responsibility, and see official action alongside community verification." />
+    <meta property="og:title" content="CivicPulse — Move public problems forward" />
+    <meta property="og:description" content="Report, route, act, and verify public infrastructure problems through one traceable civic record." />
+    <meta property="og:image" content="/brand/civicpulse-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />
     <title>CivicPulse — Report. Route. Resolve.</title>
+    <script>
+      (() => {
+        const saved = localStorage.getItem("civicpulse-theme");
+        const theme = saved === "light" || saved === "dark"
+          ? saved
+          : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -40,6 +40,27 @@ const schema = z.object({
 });
 
 const parsed = schema.parse(process.env);
+if (
+  parsed.NODE_ENV === "production" &&
+  (parsed.SESSION_SECRET.includes("replace-with") ||
+    parsed.APP_PUBLIC_URL.startsWith("http://") ||
+    parsed.API_PUBLIC_URL.startsWith("http://"))
+) {
+  throw new Error(
+    "Production requires a non-placeholder session secret and HTTPS public URLs.",
+  );
+}
+const smtpValues = [
+  parsed.SMTP_HOST,
+  parsed.SMTP_USER,
+  parsed.SMTP_PASS,
+  parsed.EMAIL_FROM,
+];
+if (smtpValues.some(Boolean) && !smtpValues.every(Boolean)) {
+  throw new Error(
+    "SMTP_HOST, SMTP_USER, SMTP_PASS, and EMAIL_FROM must be configured together.",
+  );
+}
 const geminiKeys = Object.entries(process.env)
   .filter(([key, value]) => /^GEMINI_API_KEY_\d+$/.test(key) && value?.trim())
   .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
