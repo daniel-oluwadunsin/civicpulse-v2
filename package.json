@@ -22,6 +22,7 @@
     "test:e2e:functional": "playwright test --config=playwright.functional.config.ts",
     "db:migrate": "npm run db:migrate --workspace=@civicpulse/server",
     "db:status": "npm run db:status --workspace=@civicpulse/server",
+    "db:import:nigeria": "npm run db:import:nigeria --workspace=@civicpulse/server",
     "start:api": "npm run start:api --workspace=@civicpulse/server",
     "start:worker": "npm run start:worker --workspace=@civicpulse/server"
   },

@@ -188,6 +188,29 @@ Do not seed invented Nigerian boundaries into production.
 
 Test environments may use clearly labeled small fixtures solely for automated tests.
 
+## Imported Nigeria boundary release
+
+The local development and dedicated integration-test databases currently contain
+the versioned Nigeria release supplied for CivicPulse routing:
+
+- geoBoundaries / GRID3 ADM1 (states + FCT): 37 features;
+- geoBoundaries / GRID3 ADM2 (local government areas): 774 features;
+- release commit: `9469f09`;
+- effective boundary vintage: 2022;
+- license: Creative Commons Attribution 4.0 International (CC BY 4.0);
+- source: [ADM1 GeoJSON](https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/NGA/ADM1/geoBoundaries-NGA-ADM1.geojson) and [ADM2 GeoJSON](https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/NGA/ADM2/geoBoundaries-NGA-ADM2.geojson).
+
+The repeatable importer is `npm run db:import:nigeria --workspace=@civicpulse/server -- --apply`.
+It refuses partial downloads, unsupported or invalid geometries, and ambiguous
+LGA-to-state containment. Re-running it updates the same source/type/code rows,
+rebuilds the Nigeria country union, and appends a provenance audit record. Use
+`--allow-test` only when deliberately targeting `TEST_DATABASE_URL`.
+
+When the data is displayed or redistributed, attribute the geoBoundaries project
+and retain the CC BY 4.0 notice. This release is a routing reference, not a
+claim that administrative boundaries or agency mandates are legally current;
+review and import a newer version when the boundary authority publishes one.
+
 ---
 
 # 9. Government/NGO seed/onboarding

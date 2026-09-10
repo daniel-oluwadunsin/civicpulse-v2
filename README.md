@@ -20,7 +20,7 @@ The web app runs at `http://localhost:5173`; API health is at `http://localhost:
 
 ## Production data
 
-Import reviewed GeoJSON boundary datasets with source, source URL, effective dates, and licensing provenance into `jurisdictions`; validate geometries and point-in-polygon tests before routing. Onboard government and NGO records through the verification workflow. Do not represent fixtures as real organizations or upload invented asset ownership.
+Import reviewed GeoJSON boundary datasets with source, source URL, effective dates, and licensing provenance into `jurisdictions`; validate geometries and point-in-polygon tests before routing. The supplied Nigeria geoBoundaries/GRID3 release can be imported with `npm run db:import:nigeria --workspace=@civicpulse/server -- --apply` (use `--allow-test` only with the dedicated test database). Onboard government and NGO records through the verification workflow. Do not represent fixtures as real organizations or upload invented asset ownership.
 
 ## Verification
 
