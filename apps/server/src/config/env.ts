@@ -18,6 +18,10 @@ const schema = z.object({
     .default("development"),
   PORT: z.coerce.number().int().positive().default(4000),
   DATABASE_URL: z.string().min(1),
+  DATABASE_SSL_REJECT_UNAUTHORIZED: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((value) => value === "true"),
   WEB_ORIGIN: z.string().url(),
   APP_PUBLIC_URL: z.string().url(),
   API_PUBLIC_URL: z.string().url(),

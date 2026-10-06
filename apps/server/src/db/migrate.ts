@@ -47,7 +47,7 @@ async function migrate() {
       client.release();
     }
   }
-  await runMigrations({ connectionString: process.env.DATABASE_URL! });
+  await runMigrations({ pgPool: pool });
 }
 migrate()
   .then(() => pool.end())

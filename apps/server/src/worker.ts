@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import { run } from "graphile-worker";
 import { env } from "./config/env.js";
 import { taskList } from "./jobs/taskList.js";
+import { pool } from "./db/pool.js";
 import { assertDatabaseReady } from "./db/readiness.js";
 
 let ready = false;
@@ -20,7 +21,7 @@ const healthServer = createServer((req, res) => {
 async function startWorker() {
   await assertDatabaseReady();
   await run({
-    connectionString: env.DATABASE_URL,
+    pgPool: pool,
     taskList,
     concurrency: 3,
     pollInterval: 1000,

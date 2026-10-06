@@ -27,6 +27,7 @@ NODE_ENV=development
 PORT=4000
 WEB_ORIGIN=http://localhost:5173
 DATABASE_URL=postgresql://...
+DATABASE_SSL_REJECT_UNAUTHORIZED=true
 SESSION_COOKIE_NAME=civicpulse_session
 SESSION_SECRET=...
 SESSION_TTL_DAYS=30
@@ -70,6 +71,12 @@ Never expose:
 - database URL;
 - session secret;
 - SMTP password.
+
+Keep `DATABASE_SSL_REJECT_UNAUTHORIZED=true` when the managed PostgreSQL
+provider supplies a trusted CA. If a provider uses a private/self-signed CA
+that cannot be installed in the runtime, set it to `false` only for the
+provider-managed private connection and keep the database inaccessible from
+the public internet.
 
 For Gmail, `SMTP_USER` is the Gmail address, `SMTP_PASS` is a Google app
 password, and `EMAIL_FROM` must be that address or a configured sending alias.
